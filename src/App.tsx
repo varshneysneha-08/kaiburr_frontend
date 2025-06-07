@@ -1,29 +1,29 @@
-import React from 'react';
-import { LaptopOutlined, UserOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
-import CreateTaskForm from './Components/CreateTaskForm';
-import AllTasks from './Components/AllTasks';
+import React, { useState } from "react";
+import { LaptopOutlined, UserOutlined } from "@ant-design/icons";
+import type { MenuProps } from "antd";
+import { Breadcrumb, Layout, Menu, theme } from "antd";
+import CreateTaskForm from "./Components/CreateTaskForm";
+import AllTasks from "./Components/AllTasks";
 
 const { Header, Content, Footer, Sider } = Layout;
 
-const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
+const items1: MenuProps["items"] = ["1", "2", "3"].map((key) => ({
   key,
   label: `nav ${key}`,
 }));
 
-const subMenuTitles: string[] = ["All Tasks", "Create Task"]
+const subMenuTitles: string[] = ["All Tasks", "Create Task"];
 
-const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined].map(
+const items2: MenuProps["items"] = [UserOutlined, LaptopOutlined].map(
   (icon, index) => {
     const key = String(index + 1);
 
     return {
-      key: `sub${key}`,
+      key: `${key}`,
       icon: React.createElement(icon),
       label: subMenuTitles[index],
     };
-  },
+  }
 );
 
 const App: React.FC = () => {
@@ -31,39 +31,56 @@ const App: React.FC = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
+  const [menu, setMenu] = useState(1);
+
+  const handleMenuChange = (e: { key: string }) => {
+    setMenu(Number(e.key));
+  };
+
   return (
     <Layout>
-      <Header style={{ display: 'flex', alignItems: 'center' }}>
+      <Header style={{ display: "flex", alignItems: "center" }}>
         <div className="demo-logo" />
         <Menu
           theme="dark"
           mode="horizontal"
-          defaultSelectedKeys={['2']}
+          defaultSelectedKeys={["2"]}
           items={items1}
           style={{ flex: 1, minWidth: 0 }}
         />
       </Header>
-      <div style={{ padding: '0 48px' }}>
+      <div style={{ padding: "0 48px" }}>
         <Breadcrumb
-          style={{ margin: '16px 0' }}
-          items={[{ title: 'Home' }, { title: 'List' }, { title: 'App' }]}
+          style={{ margin: "16px 0" }}
+          items={[{ title: "Home" }, { title: "List" }, { title: "App" }]}
         />
         <Layout
-          style={{ padding: '24px 0', background: colorBgContainer, borderRadius: borderRadiusLG }}
+          style={{
+            padding: "24px 0",
+            background: colorBgContainer,
+            borderRadius: borderRadiusLG,
+          }}
         >
           <Sider style={{ background: colorBgContainer }} width={200}>
             <Menu
               mode="inline"
-              defaultSelectedKeys={['1']}
-              defaultOpenKeys={['sub1']}
-              style={{ height: '100%' }}
+              defaultSelectedKeys={["1"]}
+              defaultOpenKeys={["sub1"]}
+              style={{ height: "100%" }}
               items={items2}
+              onClick={handleMenuChange}
             />
           </Sider>
-          <Content style={{ padding: '0 24px', minHeight: 280 }}><AllTasks></AllTasks></Content>
+          <Content style={{ padding: "0 24px", minHeight: 280 }}>
+            {menu === 1 ? (
+              <AllTasks></AllTasks>
+            ) : (
+              <CreateTaskForm></CreateTaskForm>
+            )}
+          </Content>
         </Layout>
       </div>
-      <Footer style={{ textAlign: 'center' }}>
+      <Footer style={{ textAlign: "center" }}>
         Ant Design ©{new Date().getFullYear()} Created by Ant UED
       </Footer>
     </Layout>
