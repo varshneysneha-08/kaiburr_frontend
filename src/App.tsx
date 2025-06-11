@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { LaptopOutlined, UserOutlined } from "@ant-design/icons";
+import { LaptopOutlined, UserOutlined, PlayCircleOutlined} from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Layout, Menu, theme } from "antd";
 import CreateTaskForm from "./Components/CreateTaskForm";
 import AllTasks from "./Components/AllTasks";
+import ExecutedTasks from "./Components/ExecutedTasks";
 
 const { Header, Content, Footer, Sider } = Layout;
 
-const subMenuTitles: string[] = ["All Tasks", "Create Task"];
+const subMenuTitles: string[] = ["All Tasks", "Create Task", "Executed Tasks"];
 
-const items2: MenuProps["items"] = [UserOutlined, LaptopOutlined].map(
+const items2: MenuProps["items"] = [UserOutlined, LaptopOutlined, PlayCircleOutlined].map(
   (icon, index) => {
     const key = String(index + 1);
 
@@ -62,10 +63,12 @@ const App: React.FC = () => {
             />
           </Sider>
           <Content style={{ padding: "0 24px", minHeight: 280 }}>
-            {menu === 1 ? (
+            {menu === 1? (
               <AllTasks></AllTasks>
-            ) : (
+            ) : menu === 2? (
               <CreateTaskForm></CreateTaskForm>
+            ): (
+              <ExecutedTasks></ExecutedTasks>
             )}
           </Content>
         </Layout>

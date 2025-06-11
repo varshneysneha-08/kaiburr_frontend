@@ -1,0 +1,9 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* wrap based on width */
+  gap: 16px;
+  padding: 16px;
+  justify-content: center;
+  max-width: 1000px;
+  margin: auto;
+}

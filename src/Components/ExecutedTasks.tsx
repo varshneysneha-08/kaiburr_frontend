@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Button, Input, Space } from "antd";
-import TaskCard from "./TaskCard";
 import { ApiUtility } from "../utils/api-utils";
-import type { Task } from "../models/tasks";
-import "../App.css";
+import type { TaskWithExecutions } from "../models/tasks";
+import "./executedTasks.css"
+import ExecutedTaskCard from "./ExecutedTaskCard";
 
-const AllTasks: React.FC = () => {
-  const [allTasks, setAllTasks] = useState<Task[]>([]);
+
+const ExecutedTasks: React.FC = () => {
+  const [allTasks, setAllTasks] = useState<TaskWithExecutions[]>([]);
   const [id, setId] = useState<string>("");
-  const [name, setName] = useState<string>("");
 
   const fetchAllTasks = async () => {
     try {
@@ -24,26 +24,11 @@ const AllTasks: React.FC = () => {
     setId(e.target.value);
   };
 
-  const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
-  };
-
   const searchById = async () => {
     try {
       const apiUtility = new ApiUtility();
       const response = await apiUtility.getTaskById(id);
-      setAllTasks([response?.data]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const searchByName = async () => {
-    try {
-      const apiUtility = new ApiUtility();
-      const response = await apiUtility.getTaskByName(name);
-      setAllTasks(response?.data);
-      console.log(response);
+      setAllTasks([response?.data]); // Fix: wrap in array
     } catch (error) {
       console.log(error);
     }
@@ -63,23 +48,24 @@ const AllTasks: React.FC = () => {
               Search
             </Button>
           </Space.Compact>
-          <Space.Compact className="wrapper">
-            <Input placeholder="Search by name" onChange={handleName} />
-            <Button type="primary" onClick={searchByName}>
-              Search
-            </Button>
-          </Space.Compact>
         </div>
         <div className="container">
-          {allTasks.map((task) => (
-            <div className="task-card">
-              <TaskCard key={task.id} task={task} refreshCard={fetchAllTasks} />
-            </div>
-          ))}
+          {allTasks.map((task) =>
+            task.taskExecutions.map((executedTask, idx) => (
+              <div className="task-card" key={`${task.id}-${idx}`}>
+                <ExecutedTaskCard
+                    id = {task.id}
+                  startTime={executedTask.startTime}
+                  endTime={executedTask.endTime}
+                  output={executedTask.output}
+                />
+              </div>
+            ))
+          )}
         </div>
       </div>
     </Space>
   );
 };
 
-export default AllTasks;
+export default ExecutedTasks;

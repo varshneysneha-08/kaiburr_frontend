@@ -26,6 +26,15 @@ export class ApiUtility {
     }
   }
 
+  async getTaskByName(name: string) {
+    try {
+      const response = await axios.get(`${this.url}/getbyname/${name}`);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async saveTask(task: Task) {
     try {
       const response = await axios.post(`${this.url}/save`, task);
