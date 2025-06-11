@@ -16,7 +16,6 @@ A React-based frontend application for interacting with the Kaiburr Task Managem
 - React.js
 - Axios (API calls)
 - Ant Design (UI components)
-- React Router
 ---
 
 ## 🛠️ Setup Instructions
@@ -50,9 +49,9 @@ The application will open in your browser at http://localhost:3000.
 ### 1. Create New Task
 **Endpoint:** `POST /api/tasks/save`  
 **Description:** Save a new task with command details  
-**Successful Request:**
-![Create Task](assets/screenshots/img_2.png)
-
+| Submitting Form | Output Card |
+|-----------------|------------|
+| <div> <img src="src/assets/screenshots/img_1.jpg" width="80%" alt="Found Task"> </div> | <div> <img src="src/assets//screenshots/img_2.jpg" width="100%" alt="Not Found"> </div> |
 
 ---
 
@@ -60,14 +59,9 @@ The application will open in your browser at http://localhost:3000.
 **Endpoint:** `GET /api/tasks/get`  
 **Description:** Retrieve complete task list  
 **Response Examples:**
-<div style="display: flex; gap: 10px;">
-  <img src="assets/screenshots/img_7.png" width="30%" alt="Task List 1">
-  <img src="assets/screenshots/img_8.png" width="30%" alt="Task List 2"> 
-  <img src="assets/screenshots/img_9.png" width="30%" alt="Task List 3">
+<div>
+  <img src="src/assets/screenshots/img_3.jpg" width="30%" alt="Task List 1">
 </div>
-- Array of all tasks
-- Detailed command information
-- Execution history included
 
 ---
 
@@ -75,10 +69,9 @@ The application will open in your browser at http://localhost:3000.
 **Endpoint:** `GET /api/tasks/get/{id}`  
 **Description:** Retrieve single task by ID  
 **Examples:**
-| Success Case | Error Case |
-|--------------|------------|
-| <img src="assets/screenshots/img_3.png" width="100%" alt="Found Task"> | <img src="assets/screenshots/img_4.png" width="100%" alt="Not Found"> |
-| 200 OK with task details | 404 Not Found response |
+<div>
+<img src="src/assets/screenshots/img_4.jpg" width="30%" alt="Task List 1">
+</div>
 
 ---
 
@@ -86,10 +79,21 @@ The application will open in your browser at http://localhost:3000.
 **Endpoint:** `PUT /api/tasks/execute/{id}`  
 **Description:** Run the command associated with a task  
 **Execution Flow:**
+
 1. Before Execution  
-   ![Pre-Execution](assets/screenshots/img_12.png)
+   <div>
+      <img src="src/assets/screenshots/img_5.jpg" width="30%" alt="Pre Execution">
+    </div>
+
+3. Execution Button
+    <div>
+      <img src="src/assets/screenshots/img_6.jpg" width="30%" alt="Task List 1">
+    </div>
+
 2. After Execution  
-   ![Post-Execution](assets/screenshots/img_13.png)
+    <div>
+      <img src="src/assets/screenshots/img_7.jpg" width="30%" alt="Post Execution">
+    </div>
 - Command output captured
 - Execution timestamp recorded
 - Result appended to task history
