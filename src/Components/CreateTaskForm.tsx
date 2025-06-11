@@ -1,18 +1,54 @@
 import React, { useState } from "react";
-import { Button, Form, Input, Card, Space, DatePicker } from "antd";
-
-const { TextArea } = Input;
+import { Button, Form, Input } from "antd";
+import type { Task } from "../models/tasks";
+import { ApiUtility } from "../utils/api-utils";
 
 const CreateTaskForm: React.FC = () => {
-  const [cards, setCards] = useState<number[]>([0]); // Start with one card
+  const [id, saveId] = useState("");
+  const [name, saveName] = useState("");
+  const [owner, saveOwner] = useState("");
+  const [command, saveCommand] = useState("");
 
-  const handleAddCard = () => {
-    setCards([...cards, cards.length]); 
+  const setId = (e: React.ChangeEvent<HTMLInputElement>) => {
+    saveId(e.target.value);
   };
 
-  const removeCard = (indexToRemove: number) => {
-    const updatedCards = cards.filter((_, index) => index !== indexToRemove);
-    setCards(updatedCards);
+  const setName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    saveName(e.target.value);
+  };
+
+  const setOwner = (e: React.ChangeEvent<HTMLInputElement>) => {
+    saveOwner(e.target.value);
+  };
+
+  const setCommand = (e: React.ChangeEvent<HTMLInputElement>) => {
+    saveCommand(e.target.value);
+  };
+
+  const saveForm = async () => {
+    if (!id || !name || !owner || !command) {
+      alert("All fields are required.");
+      return;
+    }
+
+    const task: Task = {
+      id: id,
+      name: name,
+      owner: owner,
+      command: command,
+    };
+
+    try {
+      const apiUtility = new ApiUtility();
+      await apiUtility.saveTask(task);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      saveId("");
+      saveName("");
+      saveOwner("");
+      saveCommand("");
+    }
   };
 
   return (
@@ -24,51 +60,19 @@ const CreateTaskForm: React.FC = () => {
         style={{ maxWidth: 600 }}
       >
         <Form.Item label="Id">
-          <Input />
+          <Input onChange={setId} value={id} required />
         </Form.Item>
         <Form.Item label="Name">
-          <Input />
+          <Input onChange={setName} value={name} required />
         </Form.Item>
         <Form.Item label="Owner">
-          <Input />
+          <Input onChange={setOwner} value={owner} required />
         </Form.Item>
         <Form.Item label="Command">
-          <Input />
+          <Input onChange={setCommand} value={command} required />
         </Form.Item>
-
-        <Space direction="vertical" size={15} style={{ width: "100%" }}>
-          {cards.map((_, index) => (
-            <Card
-              title={`Task Execution ${index + 1}`}
-              key={index}
-              style={{ width: 500 }}
-            >
-              <Form.Item label="Start Time">
-                <DatePicker />
-              </Form.Item>
-              <Form.Item label="End Time">
-                <DatePicker />
-              </Form.Item>
-              <Form.Item label="Output">
-                <TextArea rows={4} />
-              </Form.Item>
-              {cards.length > 1 && (
-                <Form.Item>
-                  <Button type="dashed" danger onClick={() => removeCard(index)}>
-                    Remove Task
-                  </Button>
-                </Form.Item>
-              )}
-            </Card>
-          ))}
-        </Space>
-
-        <Form.Item style={{ marginTop: 8 }}>
-          <Button onClick={handleAddCard}>Add another Task</Button>
-        </Form.Item>
-
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" onClick={saveForm}>
             Submit
           </Button>
         </Form.Item>

@@ -7,11 +7,6 @@ import AllTasks from "./Components/AllTasks";
 
 const { Header, Content, Footer, Sider } = Layout;
 
-const items1: MenuProps["items"] = ["1", "2", "3"].map((key) => ({
-  key,
-  label: `nav ${key}`,
-}));
-
 const subMenuTitles: string[] = ["All Tasks", "Create Task"];
 
 const items2: MenuProps["items"] = [UserOutlined, LaptopOutlined].map(
@@ -40,25 +35,20 @@ const App: React.FC = () => {
   return (
     <Layout>
       <Header style={{ display: "flex", alignItems: "center" }}>
-        <div className="demo-logo" />
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={["2"]}
-          items={items1}
-          style={{ flex: 1, minWidth: 0 }}
-        />
+        <div
+          className="demo-logo"
+          style={{ color: "white", fontSize: 20, fontWeight: "bold" }}
+        >
+          Kaiburr Project
+        </div>
       </Header>
       <div style={{ padding: "0 48px" }}>
-        <Breadcrumb
-          style={{ margin: "16px 0" }}
-          items={[{ title: "Home" }, { title: "List" }, { title: "App" }]}
-        />
         <Layout
           style={{
             padding: "24px 0",
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
+            height: "85vh",
           }}
         >
           <Sider style={{ background: colorBgContainer }} width={200}>
